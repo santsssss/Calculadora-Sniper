@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Trading</title>
+    <title>Calculadora de Trading - NERD do CS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * {
@@ -14,713 +14,139 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
         }
-        input[type="number"] {
-            -moz-appearance: textfield;
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            }
+            to {
+                box-shadow: 0 8px 40px rgba(59, 130, 246, 0.6);
+            }
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-amber-50 to-green-50 min-h-screen p-6">
     <div class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-amber-400">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-amber-400">
             <!-- Header -->
-            <div class="flex flex-col items-center mb-6">
-                <h1 class="text-2xl font-bold text-amber-600">Calculadora de Trading</h1>
+            <div class="flex flex-col items-center mb-8">
+                <h1 class="text-3xl font-bold text-amber-600 mb-2">
+                    Calculadora de Trading
+                </h1>
+                <p class="text-slate-600 text-center">
+                    Ferramenta profissional para estratégias Back/Lay
+                </p>
             </div>
 
-            <!-- Mode Selector -->
-            <div class="flex gap-4 mb-6 justify-center">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="mode" value="back-lay" checked class="w-5 h-5" style="accent-color: #d97706;" onchange="changeMode('back-lay')">
-                    <span class="font-medium text-slate-700">Back/Lay</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="mode" value="lay-back" class="w-5 h-5" style="accent-color: #d97706;" onchange="changeMode('lay-back')">
-                    <span class="font-medium text-slate-700">Lay/Back</span>
-                </label>
-            </div>
-
-            <!-- Toggle para múltiplos -->
-            <div class="flex justify-center mb-6">
-                <button id="toggleMultiplos" onclick="toggleMode()" 
-                    class="px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 bg-amber-100 text-amber-700 hover:bg-amber-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="9" y="9" width="3" height="3"/><path d="M9 1v6m0 4v6m-6-6h6m4 0h6"/></svg>
-                    <span id="toggleText">Múltiplos Placares</span>
-                </button>
-            </div>
-
-            <!-- Modo Simples -->
-            <div id="modoSimples" class="max-w-md mx-auto">
-                <!-- Back/Lay Mode -->
-                <div id="backLayMode" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Odd Back</label>
-                        <input type="number" step="0.01" id="oddBack" placeholder="2" 
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateBackLay()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com o odd de entrada em back</p>
+            <!-- Mensagem de Migração -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-8 text-center">
+                <div class="mb-6">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                        </svg>
                     </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Stake Back</label>
-                        <input type="number" step="0.01" id="stakeBack" placeholder="100"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateBackLay()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com a stake de entrada do back</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Odd Lay</label>
-                        <input type="number" step="0.01" id="oddLay" placeholder="4"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateBackLay()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com o odd de saída em lay</p>
-                    </div>
-
-                    <!-- Resultado Back/Lay -->
-                    <div id="resultBackLay"></div>
-
-                    <!-- Prévia Back/Lay -->
-                    <div id="previewBackLay"></div>
+                    
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">
+                        🚀 Estamos no Novo Site!
+                    </h2>
+                    
+                    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+                        Estamos muito <strong>entusiasmados</strong> com todos os traders que têm acessado nossa calculadora! 
+                        Por isso, migramos para um domínio próprio com ainda mais funcionalidades.
+                    </p>
+                    
+                    <p class="text-md text-slate-600 mb-8">
+                        Contamos com você no nosso novo endereço para continuar evoluindo juntos no trading esportivo! 📈
+                    </p>
                 </div>
 
-                <!-- Lay/Back Mode -->
-                <div id="layBackMode" class="space-y-4" style="display: none;">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Odd Lay</label>
-                        <input type="number" step="0.01" id="oddLayEntry" placeholder="10"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateLayBack()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com o odd de entrada em lay</p>
+                <!-- Botão para o novo site -->
+                <div class="mb-6">
+                    <a href="https://calculadorasniper.com/" 
+                       target="_blank"
+                       class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl transition-all duration-300 pulse-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15,3 21,3 21,9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        Acessar Novo Site
+                    </a>
+                </div>
+
+                <!-- URL do novo site -->
+                <div class="bg-white rounded-lg border border-blue-200 px-4 py-3 inline-block">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M2 12h20"></path>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span class="text-blue-700 font-mono text-sm">
+                            https://calculadorasniper.com/
+                        </span>
                     </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Responsabilidade Lay</label>
-                        <input type="number" step="0.01" id="responsabilidade" placeholder="100"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateLayBack()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com a responsabilidade de entrada do lay</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Odd Back</label>
-                        <input type="number" step="0.01" id="oddBackExit" placeholder="20"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                            oninput="calculateLayBack()">
-                        <p class="text-xs text-slate-500 mt-1">Preencha com o odd de saída em back</p>
-                    </div>
-
-                    <!-- Resultado Lay/Back -->
-                    <div id="resultLayBack"></div>
-
-                    <!-- Prévia Lay/Back -->
-                    <div id="previewLayBack"></div>
                 </div>
             </div>
 
-            <!-- Modo Múltiplos -->
-            <div id="modoMultiplos" class="space-y-4" style="display: none;">
-                <div class="bg-blue-50 border border-blue-300 rounded-lg p-3">
-                    <h3 class="font-medium text-blue-800 text-sm">
-                        📋 Múltiplos Placares - <span id="modeLabel">Back/Lay</span>
-                    </h3>
-                </div>
-
-                <!-- Header da tabela -->
-                <div class="bg-amber-50 rounded-lg p-2 border border-amber-300">
-                    <div class="grid grid-cols-7 gap-2 text-xs font-medium text-amber-800">
-                        <div class="text-center">Placar</div>
-                        <div class="text-center" id="responsabilidadeHeader">Stake</div>
-                        <div class="text-center">Odd In</div>
-                        <div class="text-center">Odd Out</div>
-                        <div class="text-center">Lucro / %</div>
-                        <div class="text-center">Stake</div>
-                        <div class="text-center">-</div>
+            <!-- Features do novo site -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                        </svg>
                     </div>
+                    <h3 class="font-semibold text-green-800 text-sm">Mais Rápido</h3>
+                    <p class="text-xs text-green-700">Performance otimizada</p>
                 </div>
 
-                <!-- Container dos múltiplos -->
-                <div id="multiplosContainer" class="space-y-2">
-                    <!-- Linhas serão adicionadas via JS -->
-                </div>
-
-                <!-- Botões e Resumo -->
-                <div class="flex flex-col gap-3">
-                    <!-- Botões de ação -->
-                    <div class="flex justify-center gap-3">
-                        <button onclick="addMultiplo()" 
-                            class="inline-flex items-center gap-1 px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-sm transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            Adicionar
-                        </button>
-                        
-                        <button id="clearAllBtn" onclick="clearAllMultiplos()" style="display: none;"
-                            class="inline-flex items-center gap-1 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition-colors"
-                            title="Limpar todos os placares">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"></polyline><path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0,0,1 -2,-2V6m3,0V4a2,2 0,0,1 2,-2h4a2,2 0,0,1 2,2v2"></path></svg>
-                            Limpar Tudo
-                        </button>
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="3" height="3"></rect>
+                            <path d="M9 1v6m0 4v6m-6-6h6m4 0h6"></path>
+                        </svg>
                     </div>
-
-                    <!-- Resumo -->
-                    <div id="resumoMultiplos"></div>
+                    <h3 class="font-semibold text-purple-800 text-sm">Novas Funcionalidades</h3>
+                    <p class="text-xs text-purple-700">Recursos avançados</p>
                 </div>
+
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.95 9 11 5.16-1.05 9-5.45 9-11V7l-10-5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-orange-800 text-sm">Mais Seguro</h3>
+                    <p class="text-xs text-orange-700">Domínio próprio</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-xs text-slate-500">
+                    Obrigado pela confiança! Nos vemos no novo site 🎯
+                </p>
             </div>
         </div>
     </div>
 
     <script>
-        // SVG Icons
-        const copyIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-        const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-        const copyIconSmall = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path></svg>';
-        const checkIconSmall = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        // Redirecionar automaticamente após 10 segundos (opcional)
+        // setTimeout(() => {
+        //     window.location.href = 'https://calculadorasniper.com/';
+        // }, 10000);
 
-        let copiedTimeout = null;
-        let currentMode = 'back-lay';
-        let showMultiplos = false;
-        let multiplos = [{ id: 1, placar: '', responsabilidade: '', oddIn: '', oddOut: '' }];
-        let nextId = 2;
-
-        // Função para arredondar odds para valores válidos da exchange
-        function roundToValidOdd(odd) {
-            if (odd <= 2.0) return Math.round(odd * 100) / 100;
-            if (odd <= 3.0) return Math.round(odd * 50) / 50;
-            if (odd <= 4.0) return Math.round(odd * 20) / 20;
-            if (odd <= 6.0) return Math.round(odd * 10) / 10;
-            if (odd <= 10.0) return Math.round(odd * 5) / 5;
-            if (odd <= 20.0) return Math.round(odd * 2) / 2;
-            if (odd <= 30) return Math.round(odd);
-            if (odd <= 50) return Math.round(odd / 2) * 2;
-            if (odd <= 100) return Math.round(odd / 5) * 5;
-            return Math.round(odd / 10) * 10;
-        }
-
-        // Toggle entre modo simples e múltiplos
-        function toggleMode() {
-            showMultiplos = !showMultiplos;
-            const toggleBtn = document.getElementById('toggleMultiplos');
-            const toggleText = document.getElementById('toggleText');
-            const modoSimples = document.getElementById('modoSimples');
-            const modoMultiplos = document.getElementById('modoMultiplos');
-
-            if (showMultiplos) {
-                toggleBtn.className = 'px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 bg-amber-600 text-white hover:bg-amber-700';
-                toggleText.textContent = 'Modo Simples';
-                modoSimples.style.display = 'none';
-                modoMultiplos.style.display = 'block';
-                renderMultiplos();
-            } else {
-                toggleBtn.className = 'px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 bg-amber-100 text-amber-700 hover:bg-amber-200';
-                toggleText.textContent = 'Múltiplos Placares';
-                modoSimples.style.display = 'block';
-                modoMultiplos.style.display = 'none';
-            }
-        }
-
-        // Mudar modo de cálculo
-        function changeMode(mode) {
-            currentMode = mode;
-            document.getElementById('modeLabel').textContent = mode === 'back-lay' ? 'Back/Lay' : 'Lay/Back';
-            
-            // Atualizar header da coluna responsabilidade
-            const header = document.getElementById('responsabilidadeHeader');
-            if (header) {
-                header.textContent = mode === 'back-lay' ? 'Stake' : 'Resp.';
-            }
-            
-            if (mode === 'back-lay') {
-                document.getElementById('backLayMode').style.display = 'block';
-                document.getElementById('layBackMode').style.display = 'none';
-            } else {
-                document.getElementById('backLayMode').style.display = 'none';
-                document.getElementById('layBackMode').style.display = 'block';
-            }
-            
-            if (showMultiplos) {
-                renderMultiplos();
-            }
-        }
-
-        // Copiar para clipboard
-        function copyToClipboard(value, buttonId) {
-            navigator.clipboard.writeText(value).then(() => {
-                const button = document.getElementById(buttonId);
-                if (button) {
-                    const originalHTML = button.innerHTML;
-                    button.innerHTML = checkIconSmall;
-                    button.classList.add('text-green-600');
-                    
-                    if (copiedTimeout) clearTimeout(copiedTimeout);
-                    copiedTimeout = setTimeout(() => {
-                        button.innerHTML = originalHTML;
-                        button.classList.remove('text-green-600');
-                    }, 2000);
-                }
-            });
-        }
-
-        // Calcular múltiplo individual
-        function calculateMultiplo(item) {
-            const resp = parseFloat(item.responsabilidade) || 0;
-            const oddIn = parseFloat(item.oddIn) || 0;
-            const oddOut = parseFloat(item.oddOut) || 0;
-            
-            if (resp === 0 || oddIn === 0 || oddOut === 0) {
-                return { lucro: 0, percentual: 0, stakeSaida: 0 };
-            }
-
-            if (currentMode === 'back-lay') {
-                const stakeLay = (resp * oddIn) / oddOut;
-                const lucro = stakeLay - resp;
-                const percentual = (lucro / resp) * 100;
-                return {
-                    lucro: lucro.toFixed(2),
-                    percentual: percentual.toFixed(2),
-                    stakeSaida: stakeLay.toFixed(2)
-                };
-            } else {
-                const stakeBack = (resp * oddIn) / ((oddIn - 1) * oddOut);
-                const stakeLay = resp / (oddIn - 1);
-                const lucro = stakeLay - stakeBack;
-                const percentual = (lucro / resp) * 100;
-                return {
-                    lucro: lucro.toFixed(2),
-                    percentual: percentual.toFixed(2),
-                    stakeSaida: stakeBack.toFixed(2)
-                };
-            }
-        }
-
-        // Atualizar múltiplo
-        function updateMultiplo(id, field, value) {
-            const index = multiplos.findIndex(item => item.id === id);
-            if (index !== -1) {
-                multiplos[index][field] = value;
-                renderMultiplos();
-            }
-        }
-
-        // Adicionar múltiplo
-        function addMultiplo() {
-            multiplos.push({
-                id: nextId++,
-                placar: '',
-                responsabilidade: '',
-                oddIn: '',
-                oddOut: ''
-            });
-            renderMultiplos();
-        }
-
-        // Remover múltiplo
-        function removeMultiplo(id) {
-            if (multiplos.length > 1) {
-                multiplos = multiplos.filter(item => item.id !== id);
-                renderMultiplos();
-            }
-        }
-
-        // Limpar todos os múltiplos
-        function clearAllMultiplos() {
-            multiplos = [{ id: 1, placar: '', responsabilidade: '', oddIn: '', oddOut: '' }];
-            nextId = 2;
-            renderMultiplos();
-        }
-
-        // Calcular totais
-        function getTotaisMultiplos() {
-            let totalLucro = 0;
-            let totalStake = 0;
-            let lucroMaximo = 0;
-            let totalResponsabilidade = 0;
-            let ganhoPorPlacar = [];
-
-            multiplos.forEach(item => {
-                const resp = parseFloat(item.responsabilidade) || 0;
-                const oddIn = parseFloat(item.oddIn) || 0;
-                const calculated = calculateMultiplo(item);
-                
-                totalLucro += parseFloat(calculated.lucro) || 0;
-                totalStake += parseFloat(calculated.stakeSaida) || 0;
-
-                // Calcular lucro máximo e ganho individual por placar
-                if (resp > 0 && oddIn > 0) {
-                    let ganhoIndividual = 0;
-                    if (currentMode === 'back-lay') {
-                        ganhoIndividual = (oddIn - 1) * resp;
-                        lucroMaximo += ganhoIndividual;
-                    } else {
-                        ganhoIndividual = resp / (oddIn - 1);
-                        lucroMaximo += ganhoIndividual;
-                    }
-                    
-                    // Adicionar ao resumo por placar
-                    ganhoPorPlacar.push({
-                        placar: item.placar || `Placar ${ganhoPorPlacar.length + 1}`,
-                        ganho: ganhoIndividual.toFixed(2),
-                        percentual: resp > 0 ? ((ganhoIndividual / resp) * 100).toFixed(2) : '0.00'
-                    });
-                }
-            });
-
-            // Lógica diferente para responsabilidade total
-            if (currentMode === 'back-lay') {
-                totalResponsabilidade = multiplos.reduce((sum, item) => 
-                    sum + (parseFloat(item.responsabilidade) || 0), 0);
-            } else {
-                totalResponsabilidade = Math.max(...multiplos.map(item => 
-                    parseFloat(item.responsabilidade) || 0));
-            }
-
-            return {
-                totalResponsabilidade: totalResponsabilidade.toFixed(2),
-                totalLucro: totalLucro.toFixed(2),
-                totalStake: totalStake.toFixed(2),
-                percentualGeral: totalResponsabilidade > 0 ? ((totalLucro / totalResponsabilidade) * 100).toFixed(2) : '0.00',
-                lucroMaximo: lucroMaximo.toFixed(2),
-                percentualMaximo: totalResponsabilidade > 0 ? ((lucroMaximo / totalResponsabilidade) * 100).toFixed(2) : '0.00',
-                ganhoPorPlacar: ganhoPorPlacar
-            };
-        }
-
-        // Renderizar múltiplos
-        function renderMultiplos() {
-            const container = document.getElementById('multiplosContainer');
-            const totais = getTotaisMultiplos();
-            
-            container.innerHTML = '';
-            
-            multiplos.forEach((item, index) => {
-                const calculated = calculateMultiplo(item);
-                const div = document.createElement('div');
-                div.className = 'bg-white border border-slate-200 rounded-lg p-2 hover:bg-slate-50 transition-colors';
-                
-                div.innerHTML = `
-                    <div class="grid grid-cols-7 gap-2 items-center">
-                        <div>
-                            <input type="text" value="${item.placar}" placeholder="2x1"
-                                class="w-full px-2 py-1 text-sm text-center border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-amber-500"
-                                onchange="updateMultiplo(${item.id}, 'placar', this.value)">
-                        </div>
-                        <div>
-                            <input type="number" step="0.01" value="${item.responsabilidade}" placeholder="100"
-                                class="w-full px-2 py-1 text-sm text-center border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-amber-500"
-                                onchange="updateMultiplo(${item.id}, 'responsabilidade', this.value)">
-                        </div>
-                        <div>
-                            <input type="number" step="0.01" value="${item.oddIn}" placeholder="2.5"
-                                class="w-full px-2 py-1 text-sm text-center border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-amber-500"
-                                onchange="updateMultiplo(${item.id}, 'oddIn', this.value)">
-                        </div>
-                        <div>
-                            <input type="number" step="0.01" value="${item.oddOut}" placeholder="3.5"
-                                class="w-full px-2 py-1 text-sm text-center border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-amber-500"
-                                onchange="updateMultiplo(${item.id}, 'oddOut', this.value)">
-                        </div>
-                        <div class="text-center">
-                            <span class="text-sm font-medium ${parseFloat(calculated.lucro) >= 0 ? 'text-green-600' : 'text-red-600'}">
-                                ${calculated.lucro}
-                            </span>
-                            <div class="text-xs mt-0.5 ${parseFloat(calculated.percentual) >= 0 ? 'text-green-600' : 'text-red-600'}">
-                                ${calculated.percentual}%
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-sm font-medium text-slate-700 flex-1 text-center">
-                                ${calculated.stakeSaida}
-                            </span>
-                            <button id="copyBtn${item.id}" onclick="copyToClipboard('${calculated.stakeSaida}', 'copyBtn${item.id}')"
-                                class="p-1.5 hover:bg-amber-100 rounded transition-colors inline-flex items-center justify-center"
-                                title="Copiar">${copyIconSmall}</button>
-                        </div>
-                        <div class="text-center">
-                            ${multiplos.length > 1 ? `
-                                <button onclick="removeMultiplo(${item.id})"
-                                    class="p-1 text-red-600 hover:bg-red-100 rounded transition-colors"
-                                    title="Remover">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"></polyline><path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0,0,1 -2,-2V6m3,0V4a2,2 0,0,1 2,-2h4a2,2 0,0,1 2,2v2"></path></svg>
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-                
-                container.appendChild(div);
-            });
-
-            // Mostrar/ocultar botão limpar tudo
-            const clearBtn = document.getElementById('clearAllBtn');
-            if (clearBtn) {
-                clearBtn.style.display = multiplos.length > 1 ? 'block' : 'none';
-            }
-
-            // Renderizar resumo
-            renderResumo(totais);
-        }
-
-        // Renderizar resumo
-        function renderResumo(totais) {
-            const resumoContainer = document.getElementById('resumoMultiplos');
-            const hasData = multiplos.some(item => item.responsabilidade && item.oddIn) || multiplos.length > 1;
-            
-            if (!hasData) {
-                resumoContainer.innerHTML = '';
-                return;
-            }
-
-            let resumoHTML = '';
-            
-            // Primeiro bloco - Resumo atual
-            resumoHTML += '<div class="bg-green-50 border border-green-300 rounded-lg p-3">';
-            resumoHTML += '<p class="text-xs text-green-700 text-center mb-2 font-medium">📊 Resumo com Odds de Saída</p>';
-            resumoHTML += '<div class="grid grid-cols-4 gap-3 text-center">';
-            
-            resumoHTML += '<div><p class="text-xs text-green-700">Total Resp.</p>';
-            resumoHTML += '<p class="text-sm font-bold text-slate-800">' + totais.totalResponsabilidade + '</p></div>';
-            
-            resumoHTML += '<div><p class="text-xs text-green-700">Total Stake</p>';
-            resumoHTML += '<div class="flex items-center justify-center gap-1">';
-            resumoHTML += '<span class="text-sm font-bold text-slate-800">' + totais.totalStake + '</span>';
-            resumoHTML += '<button id="copyTotalStake" onclick="copyToClipboard(\'' + totais.totalStake + '\', \'copyTotalStake\')" class="p-0.5 hover:bg-green-200 rounded transition-colors inline-flex items-center justify-center">' + copyIconSmall + '</button>';
-            resumoHTML += '</div></div>';
-            
-            const lucroColor = parseFloat(totais.totalLucro) >= 0 ? 'text-green-600' : 'text-red-600';
-            resumoHTML += '<div><p class="text-xs text-green-700">Lucro Atual</p>';
-            resumoHTML += '<p class="text-sm font-bold ' + lucroColor + '">' + totais.totalLucro + '</p></div>';
-            
-            const percentColor = parseFloat(totais.percentualGeral) >= 0 ? 'text-green-600' : 'text-red-600';
-            resumoHTML += '<div><p class="text-xs text-green-700">% Atual</p>';
-            resumoHTML += '<p class="text-sm font-bold ' + percentColor + '">' + totais.percentualGeral + '%</p></div>';
-            
-            resumoHTML += '</div></div>';
-
-            // Segundo bloco - Lucro máximo (se aplicável)
-            if (parseFloat(totais.lucroMaximo) > 0) {
-                resumoHTML += '<div class="bg-blue-50 border border-blue-300 rounded-lg p-3 mt-3">';
-                resumoHTML += '<p class="text-xs text-blue-700 text-center mb-2 font-medium">🎯 Lucro Máximo (se TODAS ganharem)</p>';
-                resumoHTML += '<div class="grid grid-cols-3 gap-3 text-center mb-3">';
-                
-                resumoHTML += '<div><p class="text-xs text-blue-700">Lucro Máximo</p>';
-                resumoHTML += '<p class="text-lg font-bold text-blue-600">+' + totais.lucroMaximo + '</p></div>';
-                
-                resumoHTML += '<div><p class="text-xs text-blue-700">% Máximo</p>';
-                resumoHTML += '<p class="text-lg font-bold text-blue-600">+' + totais.percentualMaximo + '%</p></div>';
-                
-                const retornoTotal = (parseFloat(totais.totalResponsabilidade) + parseFloat(totais.lucroMaximo)).toFixed(2);
-                resumoHTML += '<div><p class="text-xs text-blue-700">Retorno Total</p>';
-                resumoHTML += '<p class="text-sm font-bold text-slate-800">' + retornoTotal + '</p></div>';
-                
-                resumoHTML += '</div>';
-
-                // Resumo individual por placar
-                if (totais.ganhoPorPlacar && totais.ganhoPorPlacar.length > 0) {
-                    resumoHTML += '<div class="border-t border-blue-200 pt-3">';
-                    resumoHTML += '<p class="text-xs text-blue-700 text-center mb-2 font-medium">📋 Ganho Individual por Placar</p>';
-                    resumoHTML += '<div class="grid gap-2">';
-                    
-                    totais.ganhoPorPlacar.forEach((item, idx) => {
-                        resumoHTML += '<div class="bg-white rounded px-3 py-2 border border-blue-200">';
-                        resumoHTML += '<div class="flex justify-between items-center">';
-                        resumoHTML += '<span class="text-sm font-medium text-slate-700">' + item.placar + '</span>';
-                        resumoHTML += '<div class="text-right">';
-                        resumoHTML += '<span class="text-sm font-bold text-blue-600">+' + item.ganho + '</span>';
-                        resumoHTML += '<span class="text-xs text-blue-500 ml-1">(+' + item.percentual + '%)</span>';
-                        resumoHTML += '</div>';
-                        resumoHTML += '</div>';
-                        resumoHTML += '</div>';
-                    });
-                    
-                    resumoHTML += '</div>';
-                    resumoHTML += '</div>';
-                }
-                
-                resumoHTML += '</div>';
-            }
-
-            resumoContainer.innerHTML = resumoHTML;
-        }
-
-        // Calcular Back/Lay
-        function calculateBackLay() {
-            const ob = parseFloat(document.getElementById('oddBack').value);
-            const sb = parseFloat(document.getElementById('stakeBack').value);
-            const ol = parseFloat(document.getElementById('oddLay').value);
-
-            // Calcular resultado final primeiro
-            if (!isNaN(ob) && !isNaN(sb) && !isNaN(ol)) {
-                const stakeLay = (sb * ob) / ol;
-                const lucro = stakeLay - sb;
-                const percentual = (lucro / sb) * 100;
-                const lucroColor = lucro >= 0 ? 'text-green-600' : 'text-red-600';
-
-                document.getElementById('resultBackLay').innerHTML = `
-                    <div class="mt-6 p-4 bg-green-50 rounded-lg border-2 border-green-300">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-semibold text-green-700">Stake de Lay</span>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg font-bold text-slate-800">${stakeLay.toFixed(2)}</span>
-                                <button id="copyBtnFinalBackLay" onclick="copyToClipboard('${stakeLay.toFixed(2)}', 'copyBtnFinalBackLay')"
-                                    class="p-1 hover:bg-green-200 rounded transition-colors text-slate-600 inline-flex items-center justify-center"
-                                    title="Copiar stake">${copyIcon}</button>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-semibold text-slate-600">Perda/Lucro</span>
-                            <span class="text-lg font-bold ${lucroColor}">${lucro.toFixed(2)} (${percentual.toFixed(2)} %)</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                document.getElementById('resultBackLay').innerHTML = '';
-            }
-
-            // Calcular prévia
-            if (!isNaN(ob) && !isNaN(sb)) {
-                const ganhoMaximo = (ob - 1) * sb;
-                const lucros = [
-                    { label: 'Máximo (100%)', valor: ganhoMaximo },
-                    { label: '50%', valor: ganhoMaximo * 0.5 },
-                    { label: '30%', valor: ganhoMaximo * 0.3 }
-                ];
-
-                let previewHTML = '<div class="bg-amber-50 border border-amber-300 rounded-lg p-3"><h3 class="font-medium text-amber-800 mb-2 text-xs">📊 Prévia para níveis de saída</h3><div class="space-y-1.5">';
-                
-                lucros.forEach((item, idx) => {
-                    const oddLaySugerida = (sb * ob) / (sb + item.valor);
-                    const oddLayArredondada = roundToValidOdd(oddLaySugerida);
-                    const stakeLay = (sb * ob) / oddLayArredondada;
-                    const lucroReal = stakeLay - sb;
-                    const percentual = ((lucroReal / sb) * 100).toFixed(2);
-
-                    previewHTML += `
-                        <div class="bg-white rounded p-2 flex justify-between items-center text-xs border border-amber-200">
-                            <div class="flex-1">
-                                <p class="font-medium text-slate-800">${item.label}</p>
-                                <p class="text-green-600">+${lucroReal.toFixed(2)} (+${percentual}%)</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="text-right">
-                                    <button onclick="document.getElementById('oddLay').value='${oddLayArredondada.toFixed(2)}'; calculateBackLay();"
-                                        class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded font-medium transition-colors text-xs">
-                                        Odd ${oddLayArredondada.toFixed(2)}
-                                    </button>
-                                    <div class="flex items-center gap-1 mt-1 justify-end">
-                                        <span class="text-slate-600">Stake: ${stakeLay.toFixed(2)}</span>
-                                        <button id="copyBtnPreview${idx}" onclick="copyToClipboard('${stakeLay.toFixed(2)}', 'copyBtnPreview${idx}')"
-                                            class="p-0.5 hover:bg-amber-100 rounded transition-colors text-slate-600 inline-flex items-center justify-center"
-                                            title="Copiar stake">${copyIconSmall}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                previewHTML += '</div></div>';
-                document.getElementById('previewBackLay').innerHTML = previewHTML;
-            } else {
-                document.getElementById('previewBackLay').innerHTML = '';
-            }
-        }
-
-        // Calcular Lay/Back
-        function calculateLayBack() {
-            const ol = parseFloat(document.getElementById('oddLayEntry').value);
-            const resp = parseFloat(document.getElementById('responsabilidade').value);
-            const ob = parseFloat(document.getElementById('oddBackExit').value);
-
-            // Calcular resultado final primeiro
-            if (!isNaN(ol) && !isNaN(resp) && !isNaN(ob)) {
-                const stakeBack = (resp * ol) / ((ol - 1) * ob);
-                const stakeLay = resp / (ol - 1);
-                const lucro = stakeLay - stakeBack;
-                const percentual = (lucro / resp) * 100;
-                const lucroColor = lucro >= 0 ? 'text-green-600' : 'text-red-600';
-
-                document.getElementById('resultLayBack').innerHTML = `
-                    <div class="mt-6 p-4 bg-green-50 rounded-lg border-2 border-green-300">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-semibold text-green-700">Stake de Back</span>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg font-bold text-slate-800">${stakeBack.toFixed(2)}</span>
-                                <button id="copyBtnFinalLayBack" onclick="copyToClipboard('${stakeBack.toFixed(2)}', 'copyBtnFinalLayBack')"
-                                    class="p-1 hover:bg-green-200 rounded transition-colors text-slate-600 inline-flex items-center justify-center"
-                                    title="Copiar stake">${copyIcon}</button>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-semibold text-slate-600">Perda/Lucro</span>
-                            <span class="text-lg font-bold ${lucroColor}">${lucro.toFixed(2)} (${percentual.toFixed(2)} %)</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                document.getElementById('resultLayBack').innerHTML = '';
-            }
-
-            // Calcular prévia
-            if (!isNaN(ol) && !isNaN(resp)) {
-                const ganhoMaximo = resp / (ol - 1);
-                const lucros = [
-                    { label: 'Máximo (100%)', valor: ganhoMaximo },
-                    { label: '50%', valor: ganhoMaximo * 0.5 },
-                    { label: '30%', valor: ganhoMaximo * 0.3 }
-                ];
-
-                let previewHTML = '<div class="bg-amber-50 border border-amber-300 rounded-lg p-3"><h3 class="font-medium text-amber-800 mb-2 text-xs">📊 Prévia para níveis de saída</h3><div class="space-y-1.5">';
-                
-                lucros.forEach((item, idx) => {
-                    const stakeLay = resp / (ol - 1);
-                    const stakeBackNecessaria = stakeLay - item.valor;
-                    const oddBackSugerida = (resp * ol) / ((ol - 1) * stakeBackNecessaria);
-                    const oddBackArredondada = roundToValidOdd(oddBackSugerida);
-                    const stakeBackReal = (resp * ol) / ((ol - 1) * oddBackArredondada);
-                    const lucroReal = stakeLay - stakeBackReal;
-                    const percentual = ((lucroReal / resp) * 100).toFixed(2);
-
-                    previewHTML += `
-                        <div class="bg-white rounded p-2 flex justify-between items-center text-xs border border-amber-200">
-                            <div class="flex-1">
-                                <p class="font-medium text-slate-800">${item.label}</p>
-                                <p class="text-green-600">+${lucroReal.toFixed(2)} (+${percentual}%)</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="text-right">
-                                    <button onclick="document.getElementById('oddBackExit').value='${oddBackArredondada.toFixed(2)}'; calculateLayBack();"
-                                        class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded font-medium transition-colors text-xs">
-                                        Odd ${oddBackArredondada.toFixed(2)}
-                                    </button>
-                                    <div class="flex items-center gap-1 mt-1 justify-end">
-                                        <span class="text-slate-600">Stake: ${stakeBackReal.toFixed(2)}</span>
-                                        <button id="copyBtnPreviewLB${idx}" onclick="copyToClipboard('${stakeBackReal.toFixed(2)}', 'copyBtnPreviewLB${idx}')"
-                                            class="p-0.5 hover:bg-amber-100 rounded transition-colors text-slate-600 inline-flex items-center justify-center"
-                                            title="Copiar stake">${copyIconSmall}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                previewHTML += '</div></div>';
-                document.getElementById('previewLayBack').innerHTML = previewHTML;
-            } else {
-                document.getElementById('previewLayBack').innerHTML = '';
-            }
-        }
-
-        // Inicializar múltiplos na carga da página
-        window.onload = function() {
-            // Inicializar header correto
-            const header = document.getElementById('responsabilidadeHeader');
-            if (header) {
-                header.textContent = currentMode === 'back-lay' ? 'Stake' : 'Resp.';
-            }
-            renderMultiplos();
-        };
+        // Adicionar evento de clique para rastreamento (opcional)
+        document.querySelector('a[href*="calculadorasniper.com"]').addEventListener('click', function() {
+            console.log('Usuário clicou para acessar o novo site');
+        });
     </script>
 </body>
 </html>
