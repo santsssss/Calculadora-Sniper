@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Trading - NERD do CS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            }
+            to {
+                box-shadow: 0 8px 40px rgba(59, 130, 246, 0.6);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50 to-green-50 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-amber-400">
+            <!-- Header -->
+            <div class="flex flex-col items-center mb-8">
+                <h1 class="text-3xl font-bold text-amber-600 mb-2">
+                    Calculadora de Trading
+                </h1>
+                <p class="text-slate-600 text-center">
+                    Ferramenta profissional para estratégias Back/Lay
+                </p>
+            </div>
+
+            <!-- Mensagem de Migração -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-8 text-center">
+                <div class="mb-6">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                        </svg>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">
+                        🚀 Estamos no Novo Site!
+                    </h2>
+                    
+                    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+                        Estamos muito <strong>entusiasmados</strong> com todos os traders que têm acessado nossa calculadora! 
+                        Por isso, migramos para um domínio próprio com ainda mais funcionalidades.
+                    </p>
+                    
+                    <p class="text-md text-slate-600 mb-8">
+                        Contamos com você no nosso novo endereço para continuar evoluindo juntos no trading esportivo! 📈
+                    </p>
+                </div>
+
+                <!-- Botão para o novo site -->
+                <div class="mb-6">
+                    <a href="https://calculadorasniper.com/" 
+                       target="_blank"
+                       class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl transition-all duration-300 pulse-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15,3 21,3 21,9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        Acessar Novo Site
+                    </a>
+                </div>
+
+                <!-- URL do novo site -->
+                <div class="bg-white rounded-lg border border-blue-200 px-4 py-3 inline-block">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M2 12h20"></path>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span class="text-blue-700 font-mono text-sm">
+                            https://calculadorasniper.com/
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features do novo site -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-green-800 text-sm">Mais Rápido</h3>
+                    <p class="text-xs text-green-700">Performance otimizada</p>
+                </div>
+
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="3" height="3"></rect>
+                            <path d="M9 1v6m0 4v6m-6-6h6m4 0h6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-purple-800 text-sm">Novas Funcionalidades</h3>
+                    <p class="text-xs text-purple-700">Recursos avançados</p>
+                </div>
+
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
+                    <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.95 9 11 5.16-1.05 9-5.45 9-11V7l-10-5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-orange-800 text-sm">Mais Seguro</h3>
+                    <p class="text-xs text-orange-700">Domínio próprio</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-xs text-slate-500">
+                    Obrigado pela confiança! Nos vemos no novo site 🎯
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Redirecionar automaticamente após 10 segundos (opcional)
+        // setTimeout(() => {
+        //     window.location.href = 'https://calculadorasniper.com/';
+        // }, 10000);
+
+        // Adicionar evento de clique para rastreamento (opcional)
+        document.querySelector('a[href*="calculadorasniper.com"]').addEventListener('click', function() {
+            console.log('Usuário clicou para acessar o novo site');
+        });
+    </script>
+</body>
+</html>
